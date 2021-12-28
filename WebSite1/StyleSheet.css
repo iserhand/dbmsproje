@@ -1,2 +1,15 @@
-﻿body {
+﻿.RegisterBtn {
+    width: 160;
+    color: white;
+    background-color: #43cc98;
+}
+.topBar {
+    height: 65;
+    background-color: #2e99e6;
+}
+.RegisterLabels{
+    margin-left:14px;    
+}
+.RegisterTextBoxes{
+
 }
