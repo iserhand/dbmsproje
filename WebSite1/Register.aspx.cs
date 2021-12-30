@@ -76,6 +76,21 @@ public partial class Default2 : System.Web.UI.Page
                                 txtPassword.Text = "";
                                 txtMail.Text = "";
                                 txtUserName.Text = "";
+                                Session.Timeout = 30;
+                                Session.Add("usersession", txtUserName.Text);
+                                Session.Add("usertype", 0);
+                                helper.close();
+                                Response.Redirect("/default.aspx");
+                                
+                                
+                                try
+                                {
+                                    cmd2.ExecuteNonQuery();
+                                }
+                                catch (SqlException ex)
+                                {
+                                    //Exception
+                                }
                                 
 
                             }
@@ -86,10 +101,11 @@ public partial class Default2 : System.Web.UI.Page
 
 
 
-
+                helper.close();
                 //Go register
             }
-        }
 
+        }
+        
     }
 }

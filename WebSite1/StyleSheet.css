@@ -1,10 +1,10 @@
 ﻿.RegisterBtn {
-    width: 160;
+    width: 160px;
     color: white;
     background-color: #43cc98;
 }
 .topBar {
-    height: 65;
+    height: 65px;
     background-color: #2e99e6;
 }
 .RegisterLabels{
@@ -12,4 +12,7 @@
 }
 .RegisterTextBoxes{
 
+}
+.RegisterBtnLabel{
+    margin-left:95%;
 }

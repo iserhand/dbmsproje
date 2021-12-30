@@ -6,11 +6,16 @@ using System.Data.SqlClient;
 
 public class Dbhelper
 {
+    private SqlConnection conn = null;
     public SqlConnection connect()
     {
-        SqlConnection conn = null;
+        
         conn = new SqlConnection(@"Server=localhost\SQLEXPRESS01;Database=HotelDatabase;Trusted_Connection=True;");
         conn.Open();
         return conn;
+    }
+    public void close()
+    {
+        conn.Close();
     }
 }
