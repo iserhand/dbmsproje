@@ -36,7 +36,7 @@ public partial class hotelAdmPanel : System.Web.UI.Page
                 {
                     Directory.CreateDirectory(strFolder);
                 }
-                strFilePath = strFolder + strFileName;
+                strFilePath ="<"+ strFolder+">" + strFileName;
                 
 
 
