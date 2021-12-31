@@ -17,6 +17,11 @@
             
             <br />
             <asp:Label ID="lblmessage" runat="server" />
+            <br />
+            <asp:DropDownList ID="DropDownList1" runat="server">
+            </asp:DropDownList>
+            <br />
+            <asp:Button ID="btnDeleteImg" runat="server" Text="Delete this image" />
         </div>
     </form>
 </body>
