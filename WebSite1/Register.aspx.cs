@@ -79,13 +79,16 @@ public partial class Default2 : System.Web.UI.Page
                                 Session.Timeout = 30;
                                 Session.Add("usersession", txtUserName.Text);
                                 Session.Add("usertype", 0);
-                                helper.close();
-                                Response.Redirect("/default.aspx");
+                                
+                                
                                 
                                 
                                 try
                                 {
                                     cmd2.ExecuteNonQuery();
+                                    
+                                    Response.Redirect("/default.aspx");
+
                                 }
                                 catch (SqlException ex)
                                 {

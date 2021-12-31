@@ -13,7 +13,8 @@ public partial class admPanel : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            GridView1.Visible = true;
+            GridView1.Visible = false;
+            GridView2.Visible = false;
         }
         object usertype = Session["usertype"];
         if (usertype == null)
@@ -47,6 +48,7 @@ public partial class admPanel : System.Web.UI.Page
             adapter.Fill(ds, "Hotel Details");
             GridView1.DataSource = ds;
             GridView1.DataBind();
+            GridView2.Visible = false;
             GridView1.Visible = true;
             helper.close();
 
@@ -55,29 +57,32 @@ public partial class admPanel : System.Web.UI.Page
     private void populateAdminTable()
     {
         Dbhelper helper = new Dbhelper();
-        using (SqlCommand cmd = new SqlCommand("SELECT [username],[password],[email],[date_registered],[usertype] from [user] WHERE [usertype]!= 0", helper.connect()))
+        using (SqlCommand cmd = new SqlCommand("SELECT * from [user] WHERE [usertype]!= 0", helper.connect()))
         {
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             adapter.Fill(ds, "Admin details");
-            GridView1.DataSource = ds;
-            GridView1.DataBind();
-            GridView1.Visible = true;
+            GridView2.DataSource = ds;
+            GridView2.DataBind();
+            GridView1.Visible = false;
+            GridView2.Visible = true;
             helper.close();
-            
+
 
         }
     }
 
     protected void btnManageHotels_Click(object sender, EventArgs e)
     {
+        GridView2.Visible = false;
         GridView1.Visible = true;
         populateHotelTable();
     }
 
     protected void btnManageAdmins_Click(object sender, EventArgs e)
     {
-        GridView1.Visible = true;
+        GridView1.Visible = false;
+        GridView2.Visible = true;
         populateAdminTable();
     }
 
@@ -90,6 +95,8 @@ public partial class admPanel : System.Web.UI.Page
     }
     protected void GridView1_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
     {
+
+
         Dbhelper helper = new Dbhelper();
         Label id = GridView1.Rows[e.RowIndex].FindControl("lbl_ID") as Label;
         TextBox name = GridView1.Rows[e.RowIndex].FindControl("txt_Name") as TextBox;
@@ -105,41 +112,95 @@ public partial class admPanel : System.Web.UI.Page
             GridView1.EditIndex = -1;
             populateHotelTable();
             helper.close();
-            
+
         }
-
-
-        /* {
-             String id = GridView1.Rows[e.RowIndex].Cells[0].Text;
-             String name = GridView1.Rows[e.RowIndex].Cells[1].Text;
-             String password = GridView1.Rows[e.RowIndex].Cells[2].Text;
-             String email = GridView1.Rows[e.RowIndex].Cells[3].Text;
-             String usertype = GridView1.Rows[e.RowIndex].Cells[4].Text;
-
-             using (SqlCommand cmd = new SqlCommand("Update user set username='" + name + "',password='" + password + "',email='" +
-                 email + "'usertype='" + usertype + "'where ID=" + id, helper.connect()))
-             {
-                 cmd.ExecuteNonQuery();
-                 populateAdminTable();
-                 GridView1.EditIndex = -1;
-             }
-
-         }
-        */
-        //updating the record  
-        /*SqlCommand cmd = new SqlCommand("Update tbl_Employee set Name='" + name.Text + "',City='" + city.Text + "' where ID=" + Convert.ToInt32(id.Text), con);
-        cmd.ExecuteNonQuery();
-        con.Close();
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
-        GridView1.EditIndex = -1;
-        //Call ShowData method for displaying updated data  
-        ShowData();
-        */
     }
     protected void GridView1_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e)
     {
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
         GridView1.EditIndex = -1;
+        populateHotelTable();
+    }
+    protected void GridView2_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e2)
+    {
+        //NewEditIndex property used to determine the index of the row being edited.  
+        GridView2.EditIndex = e2.NewEditIndex;
+        GridView2.Visible = false;
+        populateAdminTable();
+
+    }
+    protected void GridView2_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e2)
+    {
+        Dbhelper helper = new Dbhelper();
+        Label id = GridView2.Rows[e2.RowIndex].FindControl("lbl_ID") as Label;
+        TextBox name = GridView2.Rows[e2.RowIndex].FindControl("txt_Name") as TextBox;
+        TextBox location = GridView2.Rows[e2.RowIndex].FindControl("txt_password") as TextBox;
+        TextBox rooms = GridView2.Rows[e2.RowIndex].FindControl("txt_email") as TextBox;
+        TextBox rating = GridView2.Rows[e2.RowIndex].FindControl("txt_date") as TextBox;
+        TextBox star = GridView2.Rows[e2.RowIndex].FindControl("txt_usertype") as TextBox;
+
+        using (SqlCommand cmd = new SqlCommand("Update [user] set username='" + name.Text + "',password='" + location.Text + "',email='"
+            + rooms.Text + "',date_registered='" + rating.Text + "',usertype='" + star.Text + "'where ID=" + Convert.ToInt32(id.Text), helper.connect()))
+        {
+            cmd.ExecuteNonQuery();
+            GridView2.EditIndex = -1;
+            populateAdminTable();
+            helper.close();
+
+        }
+    }
+    protected void GridView2_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e2)
+    {
+        GridView2.EditIndex = -1;
+        populateAdminTable();
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        Dbhelper helper = new Dbhelper();
+        Button btn = (Button)sender;
+        GridViewRow GrdRow = (GridViewRow)btn.Parent.Parent;
+
+        TextBox name = GrdRow.Cells[0].FindControl("txt_Namein") as TextBox;
+        TextBox location = GrdRow.Cells[0].FindControl("txt_passwordin") as TextBox;
+        TextBox rooms = GrdRow.Cells[0].FindControl("txt_emailin") as TextBox;
+        TextBox star = GrdRow.Cells[0].FindControl("txt_usertypein") as TextBox;
+
+        using (SqlCommand cmd = new SqlCommand("INSERT INTO [user] (username,email,password,usertype) values (@username,@email,@password,@usertype)", helper.connect()))
+        {
+            cmd.Parameters.AddWithValue("@username", name.Text);
+            cmd.Parameters.AddWithValue("@email", location.Text);
+            cmd.Parameters.AddWithValue("@password", rooms.Text);
+            cmd.Parameters.AddWithValue("@usertype", star.Text);
+            cmd.ExecuteNonQuery();
+            helper.close();
+
+
+        }
+
+        populateAdminTable();
+    }
+    protected void btnSave_Click2(object sender, EventArgs e)
+    {
+        Dbhelper helper = new Dbhelper();
+        Button btn = (Button)sender;
+        GridViewRow GrdRow = (GridViewRow)btn.Parent.Parent;
+
+        TextBox name = GrdRow.Cells[0].FindControl("txt_Namein") as TextBox;
+        TextBox location = GrdRow.Cells[0].FindControl("txt_Cityin") as TextBox;
+        TextBox rooms = GrdRow.Cells[0].FindControl("txt_Roomsin") as TextBox;
+        TextBox star = GrdRow.Cells[0].FindControl("txt_Starin") as TextBox;
+
+        using (SqlCommand cmd = new SqlCommand("INSERT INTO [hotels] (Hotel_Name,Hotel_Location,Hotel_RoomsCount,Hotel_Star) values (@username,@email,@password,@usertype)", helper.connect()))
+        {
+            cmd.Parameters.AddWithValue("@username", name.Text);
+            cmd.Parameters.AddWithValue("@email", location.Text);
+            cmd.Parameters.AddWithValue("@password", rooms.Text);
+            cmd.Parameters.AddWithValue("@usertype", star.Text);
+            cmd.ExecuteNonQuery();
+            helper.close();
+
+
+        }
+
         populateHotelTable();
     }
 }
