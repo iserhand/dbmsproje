@@ -16,6 +16,8 @@ public partial class User : System.Web.UI.MasterPage
             RegisterLinkLabel.Visible = true;
             LoginLinkLabel.Visible = true;
             LogOutButton.Visible = false;
+            usernameLabel.Visible = false;
+            lblEmptyLabel.Visible = false;
         }
         else
         {
@@ -25,6 +27,7 @@ public partial class User : System.Web.UI.MasterPage
             LogOutButton.Visible = true;
             usernameLabel.Visible = true;
             usernameLabel.Text=sessiontxt.ToString();
+            lblEmptyLabel.Visible = true;
         }
     }
 

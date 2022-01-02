@@ -163,12 +163,13 @@ public partial class admPanel : System.Web.UI.Page
         TextBox location = GrdRow.Cells[0].FindControl("txt_passwordin") as TextBox;
         TextBox rooms = GrdRow.Cells[0].FindControl("txt_emailin") as TextBox;
         TextBox star = GrdRow.Cells[0].FindControl("txt_usertypein") as TextBox;
-
+        GridView2.DataSource = null;
+        GridView2.DataBind();
         using (SqlCommand cmd = new SqlCommand("INSERT INTO [user] (username,email,password,usertype) values (@username,@email,@password,@usertype)", helper.connect()))
         {
             cmd.Parameters.AddWithValue("@username", name.Text);
-            cmd.Parameters.AddWithValue("@email", location.Text);
-            cmd.Parameters.AddWithValue("@password", rooms.Text);
+            cmd.Parameters.AddWithValue("@email", rooms.Text);
+            cmd.Parameters.AddWithValue("@password", location.Text);
             cmd.Parameters.AddWithValue("@usertype", star.Text);
             cmd.ExecuteNonQuery();
             helper.close();
@@ -180,6 +181,7 @@ public partial class admPanel : System.Web.UI.Page
     }
     protected void btnSave_Click2(object sender, EventArgs e)
     {
+
         Dbhelper helper = new Dbhelper();
         Button btn = (Button)sender;
         GridViewRow GrdRow = (GridViewRow)btn.Parent.Parent;
@@ -188,6 +190,8 @@ public partial class admPanel : System.Web.UI.Page
         TextBox location = GrdRow.Cells[0].FindControl("txt_Cityin") as TextBox;
         TextBox rooms = GrdRow.Cells[0].FindControl("txt_Roomsin") as TextBox;
         TextBox star = GrdRow.Cells[0].FindControl("txt_Starin") as TextBox;
+        GridView2.DataSource = null;
+        GridView2.DataBind();
 
         using (SqlCommand cmd = new SqlCommand("INSERT INTO [hotels] (Hotel_Name,Hotel_Location,Hotel_RoomsCount,Hotel_Star) values (@username,@email,@password,@usertype)", helper.connect()))
         {

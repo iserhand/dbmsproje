@@ -89,7 +89,7 @@
                     <asp:TemplateField>
                         <ItemTemplate></ItemTemplate>
                         <FooterTemplate>
-                            <asp:Button runat="server" ID="btnSave" Text="Add New Hotel" CssClass="Gridbutton" CommandName="Footer" OnClick="btnSave_Click2" />
+                            <asp:Button runat="server" ID="btnSave" Text="Add New Hotel" CssClass="Gridbutton" CommandName="Footer" OnClick="btnSave_Click2"  />
                         </FooterTemplate>
                     </asp:TemplateField>
 
@@ -171,7 +171,7 @@
 
 
                         <FooterTemplate>
-                            <asp:Button runat="server" ID="btnSave" Text="Add New Admin/User" CssClass="Gridbutton" CommandName="Footer" OnClick="btnSave_Click" />
+                            <asp:Button runat="server" ID="btnSave2" Text="Add New Admin/User" CssClass="Gridbutton" CommandName="Footer" OnClick="btnSave_Click"  />
                         </FooterTemplate>
                     </asp:TemplateField>
                 </Columns>
@@ -199,9 +199,7 @@
                             <asp:TextBox runat="server" ID="txtDate" CssClass="text"></asp:TextBox></td>
                         <td>
                             <asp:TextBox runat="server" ID="txtUsertype" CssClass="text"></asp:TextBox></td>
-                        <td>
-                            <asp:Button runat="server" ID="btnSave" Text="Add new Admin/User" CssClass="Gridbutton" OnClick="btnSave_Click" CommandName="EmptyDataTemplate" />
-                        </td>
+                        <td></td>
                     </tr>
 
                 </EmptyDataTemplate>

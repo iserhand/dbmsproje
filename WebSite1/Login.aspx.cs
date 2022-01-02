@@ -48,9 +48,11 @@ public partial class Login : System.Web.UI.Page
                                 break;
                             case 1:
                                 //System admin
+                                Response.Redirect("/admPanel.aspx");
                                 break;
                             default:
                                 //Hotel admin specified
+                                Response.Redirect("/hotelAdmPanel.aspx");
                                 break;
                         }
 
