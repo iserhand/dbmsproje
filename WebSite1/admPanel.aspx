@@ -155,7 +155,7 @@
                             <asp:TextBox ID="txt_date" runat="server" Text='<%#Eval("date_registered") %>'></asp:TextBox>
                         </EditItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="User type">
+                    <asp:TemplateField HeaderText="User type(Hotel ID for hotel admin.)">
                         <ItemTemplate>
                             <asp:Label ID="lbl_usertype" runat="server" Text='<%#Eval("usertype") %>'></asp:Label>
                         </ItemTemplate>

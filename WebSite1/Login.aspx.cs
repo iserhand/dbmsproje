@@ -39,6 +39,7 @@ public partial class Login : System.Web.UI.Page
                         Session.Timeout = 20;
                         Session.Add("usersession", username);
                         Session.Add("usertype", usertype);
+                        
                         switch (usertype)
                         {
                             case 0:

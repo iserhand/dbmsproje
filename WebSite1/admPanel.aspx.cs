@@ -41,7 +41,7 @@ public partial class admPanel : System.Web.UI.Page
     private void populateHotelTable()
     {
         Dbhelper helper = new Dbhelper();
-        using (SqlCommand cmd = new SqlCommand("SELECT * from [hotels]", helper.connect()))
+        using (SqlCommand cmd = new SqlCommand("SELECT [ID] ,[Hotel_Name],[Hotel_Location],[Hotel_RoomsCount],[Hotel_Rating],[Hotel_Star] from [hotels]", helper.connect()))
         {
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();

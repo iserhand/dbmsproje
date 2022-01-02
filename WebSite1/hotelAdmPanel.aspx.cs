@@ -13,26 +13,76 @@ public partial class hotelAdmPanel : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        object usertype = Session["usertype"];
+        if (usertype == null)
         {
-            Dbhelper helper = new Dbhelper();
-            object hotel = Session["usertype"];
-            int hotelid = Convert.ToInt32(hotel);
-            using (SqlCommand cmd = new SqlCommand("SELECT [ID],[imgName] from [images] WHERE [hotelID]=" + hotelid, helper.connect()))
+            //Acces denied
+            //Response.redirect(Accesdenied.aspx);
+        }
+        else
+        {
+            if ((int)usertype == 0)
             {
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
-                DropDownList1.DataSource = ds;
-                DropDownList1.DataBind();
-                DropDownList1.DataTextField = "imgName";
-                DropDownList1.DataValueField = "ID";
-                DropDownList1.DataBind();
-                helper.close();
+                //Access denied
+                //Response.redirect(Accesdenied.aspx);
+            }
+            else
+            {
+                //Access granted
+
             }
         }
-    }
 
+        if (!IsPostBack)
+        {
+            populateDropdownImages();
+            
+
+        }
+    }
+    protected void showHotelInfo()
+    {
+        object hotel = Session["usertype"];
+        int hotelid = Convert.ToInt32(hotel);
+        Dbhelper helper = new Dbhelper();
+        using (SqlCommand cmd = new SqlCommand("SELECT * from [hotels] WHERE ID=", helper.connect()))
+        {
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    reader.GetString(0);
+                    txtHotelName.Text = reader.GetString(1);
+                    txtLocation.Text = reader.GetString(2);
+                    txtRoomsCount.Text = reader.GetString(3);
+                    lblRating.Text = reader.GetString(4);
+                    lblStar.Text = reader.GetString(5);
+                    txtInfo.Text = reader.GetString(6);
+                }
+            }
+            helper.close();
+        }
+
+
+    }
+    protected void populateDropdownImages()
+    {
+        Dbhelper helper = new Dbhelper();
+        object hotel = Session["usertype"];
+        int hotelid = Convert.ToInt32(hotel);
+        using (SqlCommand cmd = new SqlCommand("SELECT [ID],[imgName] from [images] WHERE [hotelID]=" + hotelid, helper.connect()))
+        {
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+            DropDownList1.DataSource = ds;
+            DropDownList1.DataBind();
+            DropDownList1.DataTextField = "imgName";
+            DropDownList1.DataValueField = "ID";
+            DropDownList1.DataBind();
+            helper.close();
+        }
+    }
     protected void btnSaveImg_Click(object sender, EventArgs e)
     {
         StringBuilder sb = new StringBuilder();
@@ -43,7 +93,7 @@ public partial class hotelAdmPanel : System.Web.UI.Page
         {
             try
             {
-                sb.AppendFormat(" Uploading file: {0}", hotelid+"_"+FileUpload1.FileName);
+                sb.AppendFormat(" Uploading file: {0}", hotelid + "_" + FileUpload1.FileName);
 
                 //saving the file
                 string strFileName;
@@ -57,7 +107,7 @@ public partial class hotelAdmPanel : System.Web.UI.Page
                 {
                     Directory.CreateDirectory(strFolder);
                 }
-                strFilePath =strFolder + strFileName;
+                strFilePath = strFolder + strFileName;
 
                 if (File.Exists(strFilePath))
                 {
@@ -92,6 +142,55 @@ public partial class hotelAdmPanel : System.Web.UI.Page
             lblmessage.Text = sb.ToString();
         }
         lblmessage.Text = sb.ToString();
+        populateDropdownImages();
     }
 
+
+    protected void btnDeleteImg_Click(object sender, EventArgs e)
+    {
+
+        String strFileName = DropDownList1.SelectedItem.ToString();
+        String png_id = DropDownList1.SelectedValue;
+        FileInfo file = new FileInfo(Server.MapPath("images//") + strFileName);
+        Dbhelper dbhelper = new Dbhelper();
+        if (file.Exists)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DELETE FROM [images] WHERE ID= '" + Convert.ToInt32(png_id) + "'", dbhelper.connect());
+                file.Delete();
+                lblmessage.Text = "Deleted " + strFileName;
+                cmd.ExecuteNonQuery();
+                dbhelper.close();
+            }
+            catch (Exception ex)
+            {
+                lblmessage.Text = ex.Message;
+            }
+        }
+        else
+        {
+            lblmessage.Text = "Error deleting the file";
+        }
+        populateDropdownImages();
+    }
+
+
+    protected void btnImgView_Click(object sender, EventArgs e)
+    {
+        String strFileName = DropDownList1.SelectedItem.ToString();
+        imgPreview.ImageUrl = "~//images//" + strFileName;
+        imgPreview.Width = 450;
+
+
+    }
+
+
+
+
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+
+    }
 }
