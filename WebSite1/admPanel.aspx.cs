@@ -13,6 +13,7 @@ public partial class admPanel : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            Session.Add("PageLoad", 1);
             GridView1.Visible = false;
             GridView2.Visible = false;
         }
@@ -34,6 +35,26 @@ public partial class admPanel : System.Web.UI.Page
                 //Access denied
                 //Response.redirect(Accesdenied.aspx);
             }
+        }
+        object sessiontxt = Session["usersession"];
+        if (sessiontxt == null)
+        {
+            //User is not logged in 
+            RegisterLinkLabel.Visible = true;
+            LoginLinkLabel.Visible = true;
+            LogOutButton.Visible = false;
+            usernameLabel.Visible = false;
+            lblEmptyLabel.Visible = false;
+        }
+        else
+        {
+            //User is logged in
+            RegisterLinkLabel.Visible = false;
+            LoginLinkLabel.Visible = false;
+            LogOutButton.Visible = true;
+            usernameLabel.Visible = true;
+            usernameLabel.Text = sessiontxt.ToString();
+            lblEmptyLabel.Visible = true;
         }
 
 
@@ -153,7 +174,7 @@ public partial class admPanel : System.Web.UI.Page
         GridView2.EditIndex = -1;
         populateAdminTable();
     }
-    protected void btnSave_Click(object sender, EventArgs e)
+    public void btnSave_Click(object sender, EventArgs e)
     {
         Dbhelper helper = new Dbhelper();
         Button btn = (Button)sender;
@@ -173,13 +194,12 @@ public partial class admPanel : System.Web.UI.Page
             cmd.Parameters.AddWithValue("@usertype", star.Text);
             cmd.ExecuteNonQuery();
             helper.close();
-
-
         }
 
         populateAdminTable();
+        Response.Redirect(Request.RawUrl);
     }
-    protected void btnSave_Click2(object sender, EventArgs e)
+    public void btnSave_Click2(object sender, EventArgs e)
     {
 
         Dbhelper helper = new Dbhelper();
@@ -206,5 +226,12 @@ public partial class admPanel : System.Web.UI.Page
         }
 
         populateHotelTable();
+        Response.Redirect(Request.RawUrl);
+    }
+
+    protected void LogOutButton_Click(object sender, EventArgs e)
+    {
+        Session.Abandon();
+        Response.Redirect("/Default.aspx");
     }
 }

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.IO;
 using System.Data.SqlClient;
 using System.Data;
@@ -32,11 +27,31 @@ public partial class hotelAdmPanel : System.Web.UI.Page
 
             }
         }
+        object sessiontxt = Session["usersession"];
+        if (sessiontxt == null)
+        {
+            //User is not logged in 
+            RegisterLinkLabel.Visible = true;
+            LoginLinkLabel.Visible = true;
+            LogOutButton.Visible = false;
+            usernameLabel.Visible = false;
+            lblEmptyLabel.Visible = false;
+        }
+        else
+        {
+            //User is logged in
+            RegisterLinkLabel.Visible = false;
+            LoginLinkLabel.Visible = false;
+            LogOutButton.Visible = true;
+            usernameLabel.Visible = true;
+            usernameLabel.Text = sessiontxt.ToString();
+            lblEmptyLabel.Visible = true;
+        }
 
         if (!IsPostBack)
         {
             populateDropdownImages();
-            
+
 
         }
     }
@@ -143,6 +158,7 @@ public partial class hotelAdmPanel : System.Web.UI.Page
         }
         lblmessage.Text = sb.ToString();
         populateDropdownImages();
+        Response.Redirect(Request.RawUrl);
     }
 
 
@@ -173,6 +189,7 @@ public partial class hotelAdmPanel : System.Web.UI.Page
             lblmessage.Text = "Error deleting the file";
         }
         populateDropdownImages();
+        Response.Redirect(Request.RawUrl);
     }
 
 
@@ -181,16 +198,28 @@ public partial class hotelAdmPanel : System.Web.UI.Page
         String strFileName = DropDownList1.SelectedItem.ToString();
         imgPreview.ImageUrl = "~//images//" + strFileName;
         imgPreview.Width = 450;
-
-
     }
-
-
-
-
-
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        Dbhelper dbhelper = new Dbhelper();
+        try
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE [hotels](Hotel_Name,Hotel_Location,Hotel_RoomsCount,Hotel_Info) VALUES(@name,@location,@rooms,@info)", dbhelper.connect());
+            cmd.Parameters.AddWithValue("@name", txtHotelName.Text);
+            cmd.Parameters.AddWithValue("@location", txtLocation.Text);
+            cmd.Parameters.AddWithValue("@rooms", txtRoomsCount.Text);
+            cmd.Parameters.AddWithValue("@info", txtInfo.Text);
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
 
+        }
+    }
+
+    protected void LogOutButton_Click(object sender, EventArgs e)
+    {
+        Session.Abandon();
+        Response.Redirect("/Default.aspx");
     }
 }

@@ -12,7 +12,26 @@ public partial class ReservationPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        object sessiontxt = Session["usersession"];
+        if (sessiontxt == null)
+        {
+            //User is not logged in 
+            RegisterLinkLabel.Visible = true;
+            LoginLinkLabel.Visible = true;
+            LogOutButton.Visible = false;
+            usernameLabel.Visible = false;
+            lblEmptyLabel.Visible = false;
+        }
+        else
+        {
+            //User is logged in
+            RegisterLinkLabel.Visible = false;
+            LoginLinkLabel.Visible = false;
+            LogOutButton.Visible = true;
+            usernameLabel.Visible = true;
+            usernameLabel.Text = sessiontxt.ToString();
+            lblEmptyLabel.Visible = true;
+        }
     }
 
     public string Name { get; set; }
@@ -46,44 +65,44 @@ public partial class ReservationPage : System.Web.UI.Page
         if (txtName.Text.Length <= 0)
         {
             // The namespace must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtName.BorderColor = System.Drawing.Color.Red;           
+            nameError.Text = "This field is required.";
         }
-        else if(txtSurname.Text.Length <= 0)
+        else if (txtSurname.Text.Length <= 0)
         {
             // The surname space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtSurname.BorderColor = System.Drawing.Color.Red;
+            surnameError.Text = "This field is required";
         }
-        else if(txtEmail.Text.Length <= 0)
+        else if (txtEmail.Text.Length <= 0)
         {
             // The email space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtEmail.BorderColor = System.Drawing.Color.Red;
+            mailError.Text = "This field is required.";
         }
         else if (txtArrDate.Text.Length <= 0)
         {
             // The email space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtArrDate.BorderColor = System.Drawing.Color.Red;
+            arrivalError.Text = "This field is required.";
         }
         else if (txtDepDate.Text.Length <= 0)
         {
             // The email space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtDepDate.BorderColor = System.Drawing.Color.Red;
+            depatureError.Text = "This field is required.";
         }
         else if (txtRoom.Text.Length <= 0)
         {
             // The email space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtRoom.BorderColor = System.Drawing.Color.Red;
+            roomError.Text = "This field is required.";
         }
         else if (txtNum.Text.Length <= 0)
         {
             // The email space must be filled.
-            txtName.BorderColor = System.Drawing.Color.Red;
-            txtName.Text = "This field is required.";
+            txtNum.BorderColor = System.Drawing.Color.Red;
+            questError.Text = "This field is required.";
         }
         else
         {
@@ -94,58 +113,50 @@ public partial class ReservationPage : System.Web.UI.Page
             List<string> depatureDates = new List<string>();
             List<string> roomNumbers = new List<string>();
             List<string> questNumbers = new List<string>();
-
+            int hotelid = Convert.ToInt32(Session["hotelid"]);
             Dbhelper helper = new Dbhelper();
-            using (SqlCommand cmd = new SqlCommand("Select [Reservation_Name], [Reservation_Surname], [Reservation_Email], [Reservation_ArrDate], [Reservation_DepDate], [Reservation_Room], [Reservation_Count] FROM [reservation]", helper.connect()))
+            using (SqlCommand cmd2 = new SqlCommand("INSERT INTO [reservation] (Reservation_Name, Reservation_Surname, Reservation_Email, Reservation_ArrDate, Reservation_DepDate, Reservation_Room, Reservation_Count,Hotel_ID) " +
+                       "values (@Name, @Surname, @Email, @ArrivalDateTime, @DepatureDateTime, @Room, @NumberOfPeople,@hotelid)"
+                       , helper.connect()))
             {
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                cmd2.Parameters.AddWithValue("@Name", txtName.Text);
+                cmd2.Parameters.AddWithValue("@Surname", txtSurname.Text);
+                cmd2.Parameters.AddWithValue("@Email", txtEmail.Text);
+                cmd2.Parameters.AddWithValue("@ArrivalDateTime", txtArrDate.Text);
+                cmd2.Parameters.AddWithValue("@DepatureDateTime", txtDepDate.Text);
+                cmd2.Parameters.AddWithValue("@Room", txtRoom.Text);
+                cmd2.Parameters.AddWithValue("@NumberOfPeople", txtNum.Text);
+                cmd2.Parameters.AddWithValue("@hotelid", hotelid);
+                txtName.Text = "";
+                txtSurname.Text = "";
+                txtEmail.Text = "";
+                txtArrDate.Text = "";
+                txtDepDate.Text = "";
+                txtRoom.Text = "";
+                txtNum.Text = "";
+
+                try
                 {
-                    while (reader.Read())
-                    {
-                        names.Add(reader.GetString(0));
-                        surnames.Add(reader.GetString(1));
-                        emails.Add(reader.GetString(2));
-                        arrivalDates.Add(reader.GetString(3));
-                        depatureDates.Add(reader.GetString(4));
-                        roomNumbers.Add(reader.GetString(5));
-                        questNumbers.Add(reader.GetString(6));
-                    }
+                    cmd2.ExecuteNonQuery();
 
-                    using (SqlCommand cmd2 = new SqlCommand("INSERT INTO [reservation] (Reservation_Name, Reservation_Surname, Reservation_Email, Reservation_ArrDate, Reservation_DepDate, Reservation_Room, Reservation_Count) " +
-                               "values (@Name, @Surname, @Email, @ArrivalDateTime, @DepatureDateTime, @Room, @NumberOfPeople)"
-                               , helper.connect()))
-                    {
-                        cmd2.Parameters.AddWithValue("@Name", txtName.Text);
-                        cmd2.Parameters.AddWithValue("@Surname", txtSurname.Text);
-                        cmd2.Parameters.AddWithValue("@Email", txtEmail.Text);
-                        cmd2.Parameters.AddWithValue("@ArrivalDateTime", txtArrDate.Text);
-                        cmd2.Parameters.AddWithValue("@DepatureDateTime", txtDepDate.Text);
-                        cmd2.Parameters.AddWithValue("@Room", txtRoom.Text);
-                        cmd2.Parameters.AddWithValue("@NumberOfPeople", txtNum.Text);
-                        txtName.Text = "";
-                        txtSurname.Text = "";
-                        txtEmail.Text = "";
-                        txtArrDate.Text = "";
-                        txtDepDate.Text = "";
-                        txtRoom.Text = "";
-                        txtNum.Text = "";
+                    Response.Redirect("/default.aspx");
 
-                        try
-                        {
-                            cmd2.ExecuteNonQuery();
-
-                            Response.Redirect("/default.aspx");
-
-                        }
-                        catch (SqlException ex)
-                        {
-                            //Exception
-                        }
-                    }
+                }
+                catch (SqlException ex)
+                {
+                    //Exception
                 }
             }
+
+
             helper.close();
         }
 
+    }
+
+    protected void LogOutButton_Click(object sender, EventArgs e)
+    {
+        Session.Abandon();
+        Response.Redirect("/Default.aspx");
     }
 }
