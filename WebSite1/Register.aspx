@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Licorice&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <title>Sign In</title>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.png"/>
 </head>
 <body class="bg-dark text-light">
     <nav class="navbar navbar-dark bg-dark navbar-expand-md">

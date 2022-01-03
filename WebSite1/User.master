@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Licorice&display=swap" rel="stylesheet">
     <title>Booking Site</title>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.png"/>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
