@@ -18,6 +18,7 @@ public partial class User : System.Web.UI.MasterPage
             LogOutButton.Visible = false;
             usernameLabel.Visible = false;
             lblEmptyLabel.Visible = false;
+            
         }
         else
         {

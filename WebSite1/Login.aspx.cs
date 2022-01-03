@@ -10,11 +10,13 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        string userPass = Request.Form["userPassword"];
+        Console.Write(userPass);
     }
 
     protected void Button1_Click(object sender, EventArgs e)
     {
+        
         String username =txtUserName.Text;
         usernameError.Text = "";
         passwordError.Text = "";
