@@ -21,7 +21,7 @@ public partial class admPanel : System.Web.UI.Page
         if (usertype == null)
         {
             //Acces denied
-            //Response.redirect(Accesdenied.aspx);
+            Response.Redirect("AccesDenied.html");
         }
         else
         {
@@ -33,7 +33,7 @@ public partial class admPanel : System.Web.UI.Page
             else
             {
                 //Access denied
-                //Response.redirect(Accesdenied.aspx);
+                Response.Redirect("AccesDenied.html");
             }
         }
         object sessiontxt = Session["usersession"];

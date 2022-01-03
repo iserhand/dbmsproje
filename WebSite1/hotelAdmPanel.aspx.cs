@@ -12,14 +12,14 @@ public partial class hotelAdmPanel : System.Web.UI.Page
         if (usertype == null)
         {
             //Acces denied
-            //Response.redirect(Accesdenied.aspx);
+            Response.Redirect("AccesDenied.html");
         }
         else
         {
             if ((int)usertype == 0)
             {
                 //Access denied
-                //Response.redirect(Accesdenied.aspx);
+                Response.Redirect("AccesDenied.html");
             }
             else
             {
@@ -51,8 +51,6 @@ public partial class hotelAdmPanel : System.Web.UI.Page
         if (!IsPostBack)
         {
             populateDropdownImages();
-
-
         }
     }
     protected void showHotelInfo()

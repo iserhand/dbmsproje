@@ -95,7 +95,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col">
-                        <asp:Button ID="Button1" runat="server" Text="Log-in" OnClick="Button1_Click" Style="width: 15%; font-family: 'Montserrat', sans-serif;"
+                        <asp:Button ID="Button1" runat="server" Text="Register" OnClick="Button1_Click" Style="width: 15%; font-family: 'Montserrat', sans-serif;"
                             class="btn btn-primary text-dark rounded-pill" />
                     </div>
                 </div>

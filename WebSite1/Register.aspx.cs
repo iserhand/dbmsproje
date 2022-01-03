@@ -72,22 +72,39 @@ public partial class Default2 : System.Web.UI.Page
                             {
                                 cmd2.Parameters.AddWithValue("@username", txtUserName.Text);
                                 cmd2.Parameters.AddWithValue("@email", txtMail.Text);
-                                cmd2.Parameters.AddWithValue("@password",txtPassword.Text);
+                                cmd2.Parameters.AddWithValue("@password", txtPassword.Text);
                                 txtPassword.Text = "";
                                 txtMail.Text = "";
                                 txtUserName.Text = "";
                                 Session.Timeout = 30;
                                 Session.Add("usersession", txtUserName.Text);
                                 Session.Add("usertype", 0);
-                                
-                                
-                                
-                                
-                                
+                                using (SqlCommand cmd3 = new SqlCommand("Select [ID] FROM [user]", helper.connect()))
+                                {
+                                    using (SqlDataReader reader = cmd.ExecuteReader())
+                                    {
+                                        try
+                                        {
+                                            while (reader.Read())
+                                            {
+                                                Session.Add("userid",reader.GetInt32(0));
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }
+                                }
+
+
+
+
+
                                 try
                                 {
                                     cmd2.ExecuteNonQuery();
-                                    
+
                                     Response.Redirect("/default.aspx");
 
                                 }
@@ -95,7 +112,7 @@ public partial class Default2 : System.Web.UI.Page
                                 {
                                     //Exception
                                 }
-                                
+
 
                             }
                         }
@@ -110,6 +127,6 @@ public partial class Default2 : System.Web.UI.Page
             }
 
         }
-        
+
     }
 }

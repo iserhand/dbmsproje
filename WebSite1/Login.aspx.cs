@@ -21,7 +21,7 @@ public partial class Login : System.Web.UI.Page
         usernameError.Text = "";
         passwordError.Text = "";
         Dbhelper helper = new Dbhelper();
-        using (SqlCommand cmd = new SqlCommand("Select [password],[usertype] FROM [user] WHERE [username]='" + username+"'", helper.connect()))
+        using (SqlCommand cmd = new SqlCommand("Select [ID],[password],[usertype] FROM [user] WHERE [username]='" + username+"'", helper.connect()))
         {
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
@@ -33,14 +33,16 @@ public partial class Login : System.Web.UI.Page
                 }
                 while (reader.Read())
                 {
-                    String passw = reader.GetString(0);
-                    int usertype = reader.GetInt32(1);
+                    String passw = reader.GetString(1);
+                    int usertype = reader.GetInt32(2);
+                    int userid = reader.GetInt32(0);
 
                     if (passw.Equals(txtPassword.Text))
                     {
                         Session.Timeout = 20;
                         Session.Add("usersession", username);
                         Session.Add("usertype", usertype);
+                        Session.Add("userid", userid);
                         
                         switch (usertype)
                         {

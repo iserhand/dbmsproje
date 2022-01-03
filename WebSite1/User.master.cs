@@ -69,7 +69,6 @@ public partial class User : System.Web.UI.MasterPage
         Dbhelper helper = new Dbhelper();
         using (SqlCommand cmd = new SqlCommand("SELECT [ID] ,[Hotel_Name],[Hotel_Location],[Hotel_Rating],[Hotel_Star] from [hotels] WHERE [Hotel_Location] LIKE '%" + city + "%'ORDER BY [Hotel_Rating] DESC", helper.connect()))
         {
-            DataList dataList = new DataList();
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 namelist.Clear();
@@ -281,31 +280,36 @@ public partial class User : System.Web.UI.MasterPage
     protected void btnSelectHotel1_Click(object sender, EventArgs e)
     {
         int index = Convert.ToInt32(Session["index"]);
-        Session["hotelid"] = (index * size) - 5;
+        Session["hotelid"] = idlist[(index * size) - 5];
+        Response.Redirect("HotelDetailPage.aspx");
     }
 
     protected void btnSelectHotel2_Click(object sender, EventArgs e)
     {
         int index = Convert.ToInt32(Session["index"]);
-        Session["hotelid"] = (index * size) - 4;
+        Session["hotelid"] = idlist[(index * size) - 4];
+        Response.Redirect("HotelDetailPage.aspx");
     }
 
     protected void btnSelectHotel3_Click(object sender, EventArgs e)
     {
         int index = Convert.ToInt32(Session["index"]);
-        Session["hotelid"] = (index * size) - 3;
+        Session["hotelid"] = idlist[(index * size) - 3];
+        Response.Redirect("HotelDetailPage.aspx");
     }
 
     protected void btnSelectHotel4_Click(object sender, EventArgs e)
     {
         int index = Convert.ToInt32(Session["index"]);
-        Session["hotelid"] = (index * size) - 2;
+        Session["hotelid"] = idlist[(index * size) - 2];
+        Response.Redirect("HotelDetailPage.aspx");
     }
 
     protected void btnSelectHotel5_Click(object sender, EventArgs e)
     {
         int index = Convert.ToInt32(Session["index"]);
-        Session["hotelid"] = (index * size) - 1;
+        Session["hotelid"] = idlist[(index * size) - 1];
+        Response.Redirect("HotelDetailPage.aspx");
     }
 
     protected void Button1_Click(object sender, EventArgs e)

@@ -18,77 +18,77 @@
     <link rel="shortcut icon" type="image/jpg" href="/favicon.png" />
 </head>
 <body class="bg-dark text-light">
-    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-        <div class="container">
-            <a id="navbarBrand" href="#" class="navbar-brand row">
-                <div class="col">
-                    <img src="img/booking.png" alt="">
-                </div>
-                <div class="col my-auto">
-                    Booking
-                </div>
-            </a>
+    <form id="form1" runat="server">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+            <div class="container">
+                <a id="navbarBrand" href="#" class="navbar-brand row">
+                    <div class="col">
+                        <img src="img/booking.png" alt="">
+                    </div>
+                    <div class="col my-auto">
+                        Booking
+                    </div>
+                </a>
 
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="navbarMenu" class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="/" class="nav-link">
-                            <img src="img/home.png" alt="">
-                            Home                               
-                        </a>
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="navbarMenu" class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <img src="img/home.png" alt="">
+                                Home                               
+                            </a>
 
-                    </li>
-                    <li class="nav-item">
-                        <a href="/Login.aspx" class="nav-link">
-                            <asp:Label ID="LoginLinkLabel" runat="server" Text="">
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Login.aspx" class="nav-link">
+                                <asp:Label ID="LoginLinkLabel" runat="server" Text="">
                                     <img src="img/login.png" alt="" >
                                     Login
-                            </asp:Label>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <div id="registerDiv" runat="server">
-                            <a href="/Register.aspx" class="nav-link">
-                                <asp:Label ID="RegisterLinkLabel" runat="server" Text="">
-                                    <img src="img/signup.png" alt="">
-                                    Sign Up
                                 </asp:Label>
                             </a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <asp:Label ID="lblEmptyLabel" runat="server">
+                        </li>
+                        <li class="nav-item">
+                            <div id="registerDiv" runat="server">
+                                <a href="/Register.aspx" class="nav-link">
+                                    <asp:Label ID="RegisterLinkLabel" runat="server" Text="">
+                                    <img src="img/signup.png" alt="">
+                                    Sign Up
+                                    </asp:Label>
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <asp:Label ID="lblEmptyLabel" runat="server">
                                     <img src="img/logout.png" alt="">
-                            </asp:Label>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <asp:Button ID="LogOutButton" runat="server" Style="outline: none; border: none; background: none; color: gray" OnClick="LogOutButton_Click" Text="Log Out" />
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <asp:Label ID="usernameLabel" runat="server">                                    
-                            </asp:Label>
-                        </a>
+                                </asp:Label>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <asp:Button ID="LogOutButton" runat="server" Style="outline: none; border: none; background: none; color: gray" OnClick="LogOutButton_Click" Text="Log Out" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <asp:Label ID="usernameLabel" runat="server">                                    
+                                </asp:Label>
+                            </a>
 
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"></a>
-                    </li>
-                </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    <form id="form1" runat="server">
+        </nav>
         <div style="height: 100%; width: 100%; overflow: hidden;">
             <div style="height: 476px; width: 453px; float: left;">
                 <div class="mt-2">
